@@ -1,4 +1,4 @@
-const multer=require(multer);
+const multer=require('multer');
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
         cb(null,"./backend/public/temp")
@@ -8,4 +8,6 @@ const storage=multer.diskStorage({
     }
 })
 
-module.exports.upload=storage
+module.exports.upload=multer({ 
+    storage, 
+});
