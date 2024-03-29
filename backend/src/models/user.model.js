@@ -63,4 +63,5 @@ userSchema.methods.generateRefreshToken=function(){
 }
 
 userSchema.plugin(mongooseAggregatePaginate)
-exports.module=mongoose.model("User",userSchema);
+const User=mongoose.model("User",userSchema);
+module.exports=User

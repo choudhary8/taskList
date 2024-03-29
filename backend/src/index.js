@@ -1,8 +1,8 @@
 const http=require('http');
 const app=require(`./app.js`);
 const connnectDB=require('./db/index.js');
-const { error } = require('console');
 require('dotenv').config()
+
 
 connnectDB();
 
