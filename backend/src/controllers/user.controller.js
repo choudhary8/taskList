@@ -36,10 +36,10 @@ const registerUser=asyncHandler(async (req,res)=>{
     const path=await uploadOnClodinary(profileImageLocalPath)
     // console.log(path);
 
-    // if(path.url==="")
-    // {
-    //     throw new apiError(400,"Profile Image is required")
-    // }
+    if(path.url==="")
+    {
+        throw new apiError(400,"Profile Image is required")
+    }
 
     // console.log(path.url);
 
@@ -53,14 +53,14 @@ const registerUser=asyncHandler(async (req,res)=>{
         "-password -refreshToken"
     )
 
-    console.log(createdUser);
+    // console.log(createdUser);
 
     if(!createdUser){
         throw new apiError(500,"Something went wrong while creating the User")
     }
     
     return res.status(201).json(
-        new apiResponse(200,createdUser,"User Creatred Successfully")
+        new apiResponse(200,createdUser,"User Created Successfully")
     )
 // return res.status(200).json({message:"ok"})
 })

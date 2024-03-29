@@ -14,7 +14,7 @@ const userSchema=mongoose.Schema(
         type:String,
         require:true
     },
-    userPhoto:{
+    profileImage:{
         type:String
     },
     refreshToken:{
