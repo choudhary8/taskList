@@ -33,10 +33,13 @@ const registerUser=asyncHandler(async (req,res)=>{
     // console.log(req.files);
     const profileImageLocalPath=await req.files?.profileImage[0]?.path;
     // console.log(profileImageLocalPath);
-    const path=await uploadOnClodinary(profileImageLocalPath)
+    if(!profileImageLocalPath){
+        throw new apiError(400,"Profile Image required")
+    }
+    const profileImage=await uploadOnClodinary(profileImageLocalPath)
     // console.log(path);
 
-    if(path.url==="")
+    if(profileImage.url==="")
     {
         throw new apiError(400,"Profile Image is required")
     }
@@ -46,8 +49,9 @@ const registerUser=asyncHandler(async (req,res)=>{
     const user=await User.create({
         email,
         password,
-        profileImage:path.url
+        profileImage:profileImage.url
     })
+    // console.log(user);
 
     const createdUser=await User.findById(user._id).select(
         "-password -refreshToken"
