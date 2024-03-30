@@ -3,6 +3,7 @@ const apiError=require('../utils/apiError.js')
 const User=require('../models/user.model.js')
 const uploadOnClodinary=require('../utils/cloudinary.js');
 const apiResponse=require('../utils/apiResponse.js')
+const mongoose=require("mongoose")
 
 const registerUser=asyncHandler(async (req,res)=>{
     //get user details from frontend
@@ -51,7 +52,7 @@ const registerUser=asyncHandler(async (req,res)=>{
         password,
         profileImage:profileImage.url
     })
-    // console.log(user);
+    // console.log(user.refreshToken);
 
     const createdUser=await User.findById(user._id).select(
         "-password -refreshToken"
@@ -69,4 +70,75 @@ const registerUser=asyncHandler(async (req,res)=>{
 // return res.status(200).json({message:"ok"})
 })
 
-module.exports=registerUser
+const generateAccessAndRefreshToken=async(userId)=>{
+    try {
+        // console.log(userId);
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+        await user.save({ validateBeforeSave: false })
+
+        return {accessToken, refreshToken}
+
+    } catch (error) {
+        console.log(error);
+        throw new apiError(500,"Something went wrong while generating accessn and refresh tokens")
+    }
+}
+
+const loginUser=asyncHandler(async(req,res)=>{
+    //user detais from req body
+    //validate details
+    //check for user in db
+    //check for password
+    //generate access and refresh tokens
+    //passing tokens in cookies
+
+    // console.log(req);
+    const {email,password}=req.body
+
+    if(!email){
+        throw new apiError(400,"Email is required");
+    }
+
+    const user=await User.findOne({email});
+    if(!user){
+        throw new apiError(404,"User doesn't exist")
+    }
+
+    const isPasswordValid=await user.isPasswordCorrect(password);
+    if(!isPasswordValid){
+        throw new apiError(400,"Credentials wrong")
+    }
+
+    const {accessToken,refreshToken}=await generateAccessAndRefreshToken(user._id)
+
+    const loggedInUser=await User.findById(user._id).select("-password -refreshToken")
+
+    const options={
+        httpOnly:true,
+        secure:true
+    }
+
+    return res
+    .status(201)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+        new apiResponse(
+            200,
+            {
+                user:loggedInUser,accessToken,refreshToken
+            },
+            "User logged In Successfully"
+        )
+    )
+
+})
+
+module.exports = {
+    registerUser: registerUser,
+    loginUser: loginUser
+};

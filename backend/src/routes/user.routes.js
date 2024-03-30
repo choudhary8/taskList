@@ -1,10 +1,10 @@
 const express=require('express')
 const router=express.Router()
-const registerUser=require('../controllers/user.controller.js')
+const {registerUser,loginUser}=require('../controllers/user.controller.js')
 const upload=require('../middleware/multer.middleware.js').upload;
 
-// console.log(upload);
-const userRouter=router.post("/register", upload.fields([
+// console.log(registerUser);
+router.post("/register", upload.fields([
     {
         name:"profileImage",
         maxCount:1
@@ -12,6 +12,8 @@ const userRouter=router.post("/register", upload.fields([
 ]),
 registerUser
 )
+
+router.post("/login",loginUser)
 // const userRouter=router.route("/register").post(
 //     upload.fields([
 //         {
@@ -22,5 +24,5 @@ registerUser
 //     registerUser
 //     )
 
-module.exports=userRouter
+module.exports=router
 
