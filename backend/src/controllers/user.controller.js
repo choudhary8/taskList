@@ -4,6 +4,7 @@ const User=require('../models/user.model.js')
 const uploadOnClodinary=require('../utils/cloudinary.js');
 const apiResponse=require('../utils/apiResponse.js')
 const mongoose=require("mongoose")
+const jwt=require("jsonwebtoken")
 
 const registerUser=asyncHandler(async (req,res)=>{
     //get user details from frontend
@@ -74,12 +75,12 @@ const generateAccessAndRefreshToken=async(userId)=>{
     try {
         // console.log(userId);
         const user = await User.findById(userId)
-        const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+        const accessToken = await user.generateAccessToken()
+        const refreshToken =await  user.generateRefreshToken()
 
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
-
+        console.log(user.refreshToken);
         return {accessToken, refreshToken}
 
     } catch (error) {
@@ -166,8 +167,52 @@ const logoutUser=asyncHandler(async(req,res)=>{
     )
 })
 
+const refreshAccessToken=asyncHandler(async(req,res)=>{
+    //Getting refreshToken from req
+    //comparing user's resfresh toke to recived refreshToken
+    const incomingRefreshToken=req.cookies?.refreshToken||req.body.refreshToken
+    if(!incomingRefreshToken){
+        throw new apiError(401,"Unauthorized request")
+    }
+    // console.log(process.env.REFRESH_TOKEN_SECRET);
+    // console.log(process.env.REFRESH_TOKEN_SECRET);
+
+    const decodedRefreshToken=jwt.verify(incomingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
+    const user=await User.findById(decodedRefreshToken._id)
+    if(!user){
+        throw new apiError(401,"Token already used")
+    }
+//    console.log(user.refreshToken);
+    if(incomingRefreshToken!=user.refreshToken){
+        throw new apiError(401,"Refresh Token expired or used")
+    }
+    
+    const {accessToken,refreshToken}=await generateAccessAndRefreshToken(user._id)
+    console.log(refreshToken);
+    const options={
+        httpOnly:true,
+        secure:true
+    }
+
+    return res
+    .status(201)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+        new apiResponse(
+            201,
+            {
+                accessToken,refreshToken:refreshToken
+            },
+            "Token refreshed successfully"
+        )
+    )
+
+})
+
 module.exports = {
     registerUser: registerUser,
     loginUser: loginUser,
-    logoutUser:logoutUser
+    logoutUser:logoutUser,
+    refreshAccessToken
 };
