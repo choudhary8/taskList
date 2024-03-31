@@ -28,4 +28,6 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
+// const deleteOnCloudinary=async(l)
+
 module.exports = uploadOnCloudinary 

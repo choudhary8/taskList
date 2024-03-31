@@ -5,6 +5,7 @@ const uploadOnClodinary=require('../utils/cloudinary.js');
 const apiResponse=require('../utils/apiResponse.js')
 const mongoose=require("mongoose")
 const jwt=require("jsonwebtoken")
+const fs = require("fs");
 
 const registerUser=asyncHandler(async (req,res)=>{
     //get user details from frontend
@@ -210,9 +211,100 @@ const refreshAccessToken=asyncHandler(async(req,res)=>{
 
 })
 
+const updatePassword=asyncHandler(async(req,res)=>{
+    //get  password details from req
+    //get user
+    //check oldpassword is correct
+    //save newpassword
+    //return res
+
+    const {oldPassword,newPassword}=req.body
+    if(!oldPassword||!newPassword){
+        throw new apiError(400,"password required")
+    }
+
+    const user=await User.findById(req.user._id)
+    if(!user){
+        throw new apiError(400,"Invalid request")
+    }
+
+    const  isPasswordValid=await user.isPasswordCorrect(oldPassword)
+    if(!isPasswordValid){
+        throw new apiError(400,"Invalid credentials")
+    }
+
+    user.password=newPassword
+    await user.save({validateBeforeSave:false})
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,{},"Password changed successfully")
+    )
+
+})
+
+const getCurrentUser=asyncHandler(async(req,res)=>{
+    //get user id from req
+    //get user from db
+    //return user
+
+    const user=await User.findById(req.user?._id).select("-password -refreshToken")
+    if(!user){
+        throw new apiError(400,"Invalid request")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,user,"User details fetched successfully")
+    )
+})
+
+const updateProfileImage=asyncHandler(async(req,res)=>{
+    //new profile image from req
+    //upload on cloudinary
+    //get the user
+    //update the profile image
+    const newProfileImageLocalPath=req.file?.path
+    // console.log(req.file.path);
+    if(!newProfileImageLocalPath){
+        throw new apiError(400,"Profile image is missing")
+    }
+
+    const profileImage=await uploadOnClodinary(newProfileImageLocalPath)
+    
+    if(!profileImage.url){
+        throw new apiError(500,"Something went wrong while uploading profile image on cloudinary")
+    }
+
+    const user=await User.findById(req.user?._id)
+    if(!user){
+        throw new apiError(400,"Invalid user")
+    }
+    // fs.unlinkSync(newProfileImageLocalPath);
+//     cloudinary.uploader
+//   .destroy(user.profileImage)
+//   .then(result => console.log(result));
+//     user.profileImage=profileImage.url
+//     await user.save({validateBeforeSave:false})
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,{},"Profie image updated successfully")
+    )
+
+})
+
+
+
 module.exports = {
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser:logoutUser,
-    refreshAccessToken
+    refreshAccessToken,
+    updatePassword,
+    getCurrentUser,
+    updateProfileImage
 };
