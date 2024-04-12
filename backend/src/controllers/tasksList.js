@@ -1,38 +1,21 @@
 const Task=require('../models/task.js');
+const apiError = require('../utils/apiError.js');
+const apiResponse = require('../utils/apiResponse.js');
+const asyncHandler = require('../utils/asyncHandler.js');
 
-let tasks;
 
-exports.getTasksList=(req,res,next)=>{
-    res.status(200);
-    // res.json({
-    //     message:tasks
-    // });
-    // const task=new Task({
-    //     task:"ho gya"
-    // })
-    // task.save()
-    // .then(task=>{
-    //     console.log("task added");
-    //     console.log(task);
-    // })
-    // console.log(Task.find());
-    Task.find({})
-    .then((task)=>{
-        console.log(task);
-        // tasks.push(task[0]);
-        // console.log(tasks);\
-        // res.send(task);
-        tasks=task.map(fn);
-        function fn(item){
-            return item.task;
-        }
-    })
-   
-    res.send(tasks);
-    // res.json(tasks);
-    res.end();
-    console.log("hsfkfbc");
-}
+
+exports.getTasksList=asyncHandler(async(req,res)=>{
+    const taskList=await Task.find({});
+    if(!taskList){
+        throw new apiError(500,"Something went wrong while fetching the data")
+    }
+    return res
+    .stats(200)
+    .json(
+        new apiResponse(200,taskList,"tasks fetched successfully")
+    )
+})
 
 
 exports.create_a_task=(req,res)=>{

@@ -14,6 +14,6 @@ app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1/users",userRouter);
-app.get("/",tasksRouter);
+app.get("/api/v1/tasks",tasksRouter);
 
 module.exports=app;

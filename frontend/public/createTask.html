@@ -6,10 +6,26 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post">
-        <input type="text" name="content" id="content">
-        <select name="day" id="day"></select>
+    <form action="" method="post" class="flex ">
+        <label for="content">Enter your task</label>
+        <input type="textArea" name="content" id="content" class="block">
+
+        <label for="day">Choose task day :</label>
+        <select name="day" id="day">
+            <!-- <option value="select a day">select a day</option> -->
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+
+        <label for="time">Enter task time</label>
         <input type="time" name="time" id="time">
+
+        <label for="users">Task share wtih</label>
         <input type="text" name="users" id="users">
         <button type="submit">Create</button>
     </form>
