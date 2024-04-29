@@ -2,6 +2,7 @@ const mongoose=require('mongoose')
 const bcrypt=require("bcrypt")
 const jwt = require('jsonwebtoken')
 const mongooseAggregatePaginate=require('mongoose-aggregate-paginate-v2')
+const Task = require('./task.model')
 
 const userSchema=mongoose.Schema(
     {
@@ -14,6 +15,12 @@ const userSchema=mongoose.Schema(
         type:String,
         require:true
     },
+    tasksList:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Task
+        }
+    ],
     profileImage:{
         type:String
     },
