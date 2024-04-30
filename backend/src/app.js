@@ -3,7 +3,7 @@ const app=express();
 const cors=require('cors');
 const cookieParser=require("cookie-parser")
 const bodyParser=require("body-parser")
-const tasksRouter=require('./routes/tasksList.js')
+const tasksRouter=require('./routes/task.routes.js')
 const userRouter=require('./routes/user.routes.js')
 
 app.use(cors());
@@ -14,6 +14,6 @@ app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1/users",userRouter);
-app.get("/api/v1/tasks",tasksRouter);
+app.use("/api/v1/tasks",tasksRouter);
 
 module.exports=app;

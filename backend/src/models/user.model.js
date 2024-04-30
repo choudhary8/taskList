@@ -15,7 +15,7 @@ const userSchema=mongoose.Schema(
         type:String,
         require:true
     },
-    tasksList:[
+    tasks:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:Task
