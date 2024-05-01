@@ -1,4 +1,5 @@
 const Task = require("../models/task.model");
+const User = require("../models/user.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
@@ -7,23 +8,29 @@ const asyncHandler = require("../utils/asyncHandler");
 const createTask=asyncHandler(async(req,res)=>{
     //get the details from frontend
     //need to validate the details
+    //check if user exits in db
     //create the user - entry db
     //check the user creation
     //return the user in response
 
-    console.log(req.body);
+
     if(!req.body){
         throw new apiError(400,"request body is empty")
     }
 
     const {content,owner,day}=req.body;
-    // if(!content||!owner||!day){
-    //     throw new apiError(400,"All details are required")
-    // }
+    if(!content||!owner||!day){
+        throw new apiError(400,"All details are required")
+    }
+
+    const user=await User.findOne({owner})
+    if(!user){
+        throw new apiError(401,"Owner doesn't exist")
+    }
 
     const task=await Task.create({
         content,
-        owner,
+        owner:user._id,
         day
     })
 
@@ -38,6 +45,36 @@ const createTask=asyncHandler(async(req,res)=>{
 })
 
 
+const getAllTask=asyncHandler(async(req,res)=>{
+    //get details from front end
+    //validate the details-email
+    //check if user exists
+    //find all task created by user
+    //validate the tasks
+    //return all tasks
+
+    const {email}=req.body;
+    if(!email){
+        throw new apiError(400,"User required")
+    }
+
+    const user=await User.findOne({email})
+    if(!user){
+        throw new apiError(404,"Invalid user")
+    }
+
+    const tasks=await Task.find({owner:user._id})
+    if(tasks.length==0){
+        throw new apiError(404,"No task found")
+    }
+
+    return res.status(200).json(
+        new apiResponse(200,tasks,"All task fetched successfully")
+    )
+
+})
+
 module.exports={
-    createTask
+    createTask,
+    getAllTask
 }

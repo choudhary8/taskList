@@ -6,9 +6,8 @@ const TaskSchema=mongoose.Schema({
         require:[true,"content is required"]
     },
     owner:{
-        // type:mongoose.Schema.Types.ObjectId,
-        // ref:User,
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:User,
         require:[true,"owner is required"]
     },
     day:{
