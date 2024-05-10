@@ -17,13 +17,13 @@ const createTask=asyncHandler(async(req,res)=>{
     if(!req.body){
         throw new apiError(400,"request body is empty")
     }
-
-    const {content,owner,day}=req.body;
-    if(!content||!owner||!day){
+    
+    const {content,ownerEmail,day}=req.body;
+    if(!content||!ownerEmail||!day){
         throw new apiError(400,"All details are required")
     }
 
-    const user=await User.findOne({owner})
+    const user=await User.findOne({email:ownerEmail})
     if(!user){
         throw new apiError(401,"Owner doesn't exist")
     }
@@ -72,6 +72,11 @@ const getAllTask=asyncHandler(async(req,res)=>{
         new apiResponse(200,tasks,"All task fetched successfully")
     )
 
+})
+
+const deleteTask=asyncHandler(async(req,res)=>{
+    //get details from frontend
+    //get 
 })
 
 module.exports={
