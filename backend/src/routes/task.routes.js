@@ -5,6 +5,6 @@ const router=express.Router();
 
 
 router.post('/create-task',createTask)
-router.get("/get-all-tasks",getAllTask)
+router.post("/get-all-tasks",getAllTask)
 
 module.exports=router

@@ -6,9 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post" class="flex ">
-        <label for="content">Enter your task</label>
+    <form action="http://localhost:3000/api/v1/tasks/create-task" method="post" class="flex flex-col ">
+        <div>
+            <label for="content">Enter your task</label>
         <input type="textArea" name="content" id="content" class="block">
+        </div>
 
         <label for="day">Choose task day :</label>
         <select name="day" id="day">
@@ -22,12 +24,14 @@
             <option value="Sunday">Sunday</option>
         </select>
 
-        <label for="time">Enter task time</label>
+        <!-- <label for="time">Enter task time</label>
         <input type="time" name="time" id="time">
 
         <label for="users">Task share wtih</label>
-        <input type="text" name="users" id="users">
+        <input type="text" name="users" id="users"> -->
         <button type="submit">Create</button>
     </form>
+
+
 </body>
 </html>

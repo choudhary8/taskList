@@ -17,7 +17,7 @@ const createTask=asyncHandler(async(req,res)=>{
     if(!req.body){
         throw new apiError(400,"request body is empty")
     }
-    
+    console.log(req.body);
     const {content,ownerEmail,day}=req.body;
     if(!content||!ownerEmail||!day){
         throw new apiError(400,"All details are required")
@@ -54,10 +54,10 @@ const getAllTask=asyncHandler(async(req,res)=>{
     //return all tasks
 
     const {email}=req.body;
+    console.log(req.body);
     if(!email){
         throw new apiError(400,"User required")
     }
-
     const user=await User.findOne({email})
     if(!user){
         throw new apiError(404,"Invalid user")
