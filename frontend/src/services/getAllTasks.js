@@ -16,12 +16,12 @@ const tasksList=async ()=>{
         console.log(res);
         let tasks=res.data.data;
                 console.log(tasks);
-                const n=document.getElementById("task");
                 for(let i=0;i<tasks.length;i++)
                 {
+                    let day=document.getElementById(`${tasks[i].day}`)
                     let ele=document.createElement("div");
                     ele.innerText=`${tasks[i].content}`;
-                    n.appendChild(ele);
+                    day.appendChild(ele);
                 }
     
     

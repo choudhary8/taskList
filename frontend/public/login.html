@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <form action="http://localhost:3000/api/v1/users/login" method="post">
+        <form id="login">
             <label for="email">Enter your Email</label>
             <input type="email" name="email" id="email" class="border" placeholder="email">
 
@@ -17,5 +17,7 @@
             <a href="./signup.html">Create new account here</a>
         </form>
     </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../src/services/login.js"></script>
 </body>
 </html>
