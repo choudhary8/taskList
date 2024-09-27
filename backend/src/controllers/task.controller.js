@@ -18,19 +18,19 @@ const createTask=asyncHandler(async(req,res)=>{
         throw new apiError(400,"request body is empty")
     }
     console.log(req.body);
-    const {content,ownerEmail,day}=req.body;
-    if(!content||!ownerEmail||!day){
+    const {content,day}=req.body;
+    if(!content||!day){
         throw new apiError(400,"All details are required")
     }
 
-    const user=await User.findOne({email:ownerEmail})
+    const user=await User.findById(req.user._id)
     if(!user){
         throw new apiError(401,"Owner doesn't exist")
     }
 
     const task=await Task.create({
         content,
-        owner:user._id,
+        owner:req.user._id,
         day
     })
 
@@ -53,12 +53,12 @@ const getAllTask=asyncHandler(async(req,res)=>{
     //validate the tasks
     //return all tasks
 
-    const {email}=req.body;
-    console.log(req.body);
-    if(!email){
+    // const {email}=req.body;
+    // console.log(req.body);
+    if(!req.user._id){
         throw new apiError(400,"User required")
     }
-    const user=await User.findOne({email})
+    const user=await User.findById(req.user._id)
     if(!user){
         throw new apiError(404,"Invalid user")
     }

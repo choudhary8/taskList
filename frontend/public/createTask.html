@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <form action="http://localhost:3000/api/v1/tasks/create-task" method="post" class="flex flex-col ">
-        <div>
-            <label for="content">Enter your task</label>
-        <input type="textArea" name="content" id="content" class="block">
-        </div>
+  </head>
+  <body>
+    <form
+      action="http://localhost:3000/api/v1/tasks/create-task"
+      method="post"
+      class="flex flex-col"
+    >
+      <div>
+        <label for="content">Enter your task</label>
+        <input type="textArea" name="content" id="content" class="block" />
+      </div>
 
-        <label for="day">Choose task day :</label>
-        <select name="day" id="day">
-            <!-- <option value="select a day">select a day</option> -->
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-        </select>
+      <label for="day">Choose task day :</label>
+      <select name="day" id="day">
+        <!-- <option value="select a day">select a day</option> -->
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
+      </select>
 
-        <!-- <label for="time">Enter task time</label>
+      <!-- <label for="time">Enter task time</label>
         <input type="time" name="time" id="time">
 
         <label for="users">Task share wtih</label>
         <input type="text" name="users" id="users"> -->
-        <button type="submit">Create</button>
+      <button type="submit">Create</button>
     </form>
 
-
-</body>
+    <script src="
+https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
+"></script>
+  </body>
 </html>

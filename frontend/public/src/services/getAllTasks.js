@@ -1,3 +1,4 @@
+// axios.defaults.withCredentials = true;
 const tasksList=async ()=>{
     try {
         // const res=await fetch("http://localhost:3000/api/v1/tasks/get-all-tasks",{
@@ -9,10 +10,14 @@ const tasksList=async ()=>{
             
         // });
         // const userTask=res.json();
-    
+       
         const res=await axios.post("http://localhost:3000/api/v1/tasks/get-all-tasks",{
-            email:"s3@jskdsd.com12"
-        })
+            withCredentials: true,
+            headers: {
+                'Access-Control-Allow-Origin': '*', 
+                'Content-Type': 'application/json'
+            }
+        });
         console.log(res);
         let tasks=res.data.data;
                 console.log(tasks);

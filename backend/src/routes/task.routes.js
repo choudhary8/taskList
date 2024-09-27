@@ -4,7 +4,7 @@ const verifyJWT = require('../middleware/auth.middleware');
 const router=express.Router();
 
 
-router.post('/create-task',createTask)
-router.post("/get-all-tasks",getAllTask)
+router.post('/create-task',verifyJWT,createTask)
+router.post("/get-all-tasks",verifyJWT,getAllTask)
 
 module.exports=router

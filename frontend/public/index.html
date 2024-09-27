@@ -1,55 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" class="m-10 my-0">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task List</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="h-5 m-5 flex justify-between" id="nav">
-        <div>taskList</div>
-        <div>
-            <a href="./createTask.html" class="border border-black">Create</a>
-            <a href="" class="border border-black" id="logout">Logout</a>
-        </div>
-        
+      <div>taskList</div>
+      <div>
+        <a href="./createTask.html" class="border border-black">Create</a>
+        <!-- <a href="" class="border border-black" id="logout">Logout</a> -->
+        <button id="logout">Logout</button>
+      </div>
     </nav>
-    <hr>
+    <hr />
     <div class="flex justify-between w-full">
-        <div id="1" class="border-2 border-black">
-            <strong>Monday</strong>
-        </div>
-        <div id="2" class="border-2 border-black">
-            <strong>Tuesday</strong>
-        </div>
-        <div id="3" class="border-2 border-black">
-            <strong>Wednesday</strong>
-        </div>
-        <div id="4" class="border-2 border-black">
-            <strong>Thursday</strong>
-        </div>
-        <div id="5" class="border-2 border-black">
-            <strong>Friday</strong>
-        </div>
-        <div id="6" class="border-2 border-black">
-            <strong>Saturday</strong>
-        </div>
-        <div id="7" class="border-2 border-black">
-            <strong>Sunday</strong>
-        </div>
+      <div id="1" class="border-2 border-black">
+        <strong>Monday</strong>
+      </div>
+      <div id="2" class="border-2 border-black">
+        <strong>Tuesday</strong>
+      </div>
+      <div id="3" class="border-2 border-black">
+        <strong>Wednesday</strong>
+      </div>
+      <div id="4" class="border-2 border-black">
+        <strong>Thursday</strong>
+      </div>
+      <div id="5" class="border-2 border-black">
+        <strong>Friday</strong>
+      </div>
+      <div id="6" class="border-2 border-black">
+        <strong>Saturday</strong>
+      </div>
+      <div id="7" class="border-2 border-black">
+        <strong>Sunday</strong>
+      </div>
     </div>
     <div id="task"></div>
-    <button>button</button>
-
+    <!-- <button id="button">button</button> -->
 
     <!-- <div class="border border-black w-1/6">
         <div></div>
         <div></div>
     </div> -->
-
-
-
 
     <!-- <button type="submit" class="border-2">tasks</button>
     <div></div>
@@ -57,8 +53,12 @@
     <input class="border-2 border-black p-1" type="text" placeholder="Task Name">
     <button class="border-2 border-black p-1" type="submit">Add</button>
    </form> -->
-   <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-   <script type="module" src="../src/services/index.js"></script>
-</body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script> -->
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="./src/services/index.js"></script>
+  </body>
 </html>

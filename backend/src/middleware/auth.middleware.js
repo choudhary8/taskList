@@ -4,6 +4,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const jwt=require("jsonwebtoken")
 
 const verifyJWT=asyncHandler(async(req,res,next)=>{
+    console.log(req.cookies);
     const token=req.cookies?.accessToken||req.header("authorization")?.replace("Bearer ","");
     if(!token){
         throw new apiError(401,"Unathuorise request")
